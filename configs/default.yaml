@@ -1,0 +1,67 @@
+# Default MLPilot configuration (YAML)
+# Copy and customize, then pass with: mlpilot run --data data.csv --config configs/default.yaml
+
+data:
+  target: null
+  task: auto
+  id_columns: []
+  drop_columns: []
+
+split:
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+
+clean:
+  drop_duplicates: true
+  drop_constant: true
+  remove_outliers: false
+  iqr_factor: 1.5
+
+feature_eng:
+  datetime_decompose: true
+  log_skew_threshold: 1.0
+  add_missingness_flags: true
+  pairwise_interactions: false
+  rare_category_threshold: 0.01
+
+preprocess:
+  numeric_impute: median
+  categorical_impute: most_frequent
+  scaler: standard
+  encoder: onehot
+
+compare:
+  cv_folds: 5
+  n_jobs: 1
+
+tune:
+  enable: true
+  n_trials: 40
+  cv_folds: 3
+
+select:
+  enable: true
+  importance_method: shap
+
+evaluate:
+  overfit_gap_threshold: 0.1
+
+explain:
+  enable: true
+  max_samples: 200
+  plots:
+    - summary
+    - dependence
+    - waterfall
+
+save:
+  output_dir: mlpilot_artifacts
+  model_filename: mlpilot_pipeline.joblib
+  metadata_filename: run_metadata.json
+
+runtime:
+  verbose: true
+  compare_only: false
+  no_shap: false
+  seed: 42
