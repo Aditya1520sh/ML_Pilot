@@ -39,9 +39,21 @@ class LoadStage(BaseStage):
         if not path:
             raise ValueError("No data path provided. Pass --data or set data.path in config.")
 
+        # Detect duplicate headers before pandas renames them
+        raw_cols = pd.read_csv(path, nrows=0).columns
+        dup_cols = raw_cols[raw_cols.duplicated()]
+
+        if len(dup_cols):
+            raise ValueError(
+                f"Duplicate column names detected: {dup_cols.tolist()}"
+            )
+
         frame = read_tabular(path)
         if frame.empty:
             raise ValueError(f"Loaded dataset is empty: {path}")
+
+        if len(frame) < 2:
+            raise ValueError(f"Dataset contains only {len(frame)} row. Minimum 2 rows are required.")
 
         target = context.config.data.target or self._guess_target(frame)
         if target not in frame.columns:

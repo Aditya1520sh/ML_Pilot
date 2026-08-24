@@ -133,11 +133,18 @@ class CompareStage(BaseStage):
 
         for name, estimator in zoo.items():
             try:
+                cv_folds = min(cfg.cv_folds, len(y_train))
+                
+                if cv_folds < 2:
+                    raise ValueError(
+                        f"Need at least 2 training samples for cross-validation. Got {len(y_train)}."
+                    )
+                
                 cv = CompareStage._safe_cross_validate(
                     estimator,
                     X_tr,
                     y_train,
-                    cv_folds=cfg.cv_folds,
+                    cv_folds=cv_folds,
                     scoring=scoring,
                     n_jobs=n_jobs,
                 )
@@ -155,7 +162,7 @@ class CompareStage(BaseStage):
                         "fit_time_mean": float(np.mean(cv["fit_time"])),
                     }
                 )
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:  
                 msg = f"Model '{name}' failed during compare: {exc}"
                 failures.append(msg)
                 context.add_warning(msg)

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Optional
+from rich.panel import Panel
 
 import typer
 from rich.console import Console
@@ -121,9 +122,15 @@ def run(
     runner = PipelineRunner(config=cfg, console=console)
     try:
         ctx = runner.run()
-    except Exception as exc:  # noqa: BLE001
-        console.print(f"[bold red]MLPilot run failed:[/] {exc}")
-        raise typer.Exit(code=1) from exc
+    except Exception as exc:
+        console.print(
+            Panel.fit(
+                f"[red]{exc}[/red]",
+                title="Validation Error",
+                border_style="red",
+            )
+        )
+        raise typer.Exit(code=1)
 
     console.print(
         f"[bold green]Done.[/] Best model: [cyan]{ctx.best_model_name}[/] "

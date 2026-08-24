@@ -4,12 +4,12 @@
 
 ### **Data In → Insights Out**
 
-A production-grade **Python AutoML library** for tabular datasets that automatically performs EDA, preprocessing, model comparison, hyperparameter tuning, explainability, and exports a deployment-ready inference pipeline.
+A production-grade **Python Machine Learning Library** for tabular datasets that automatically performs EDA, preprocessing, model comparison, hyperparameter tuning, explainability, and exports a deployment-ready inference pipeline.
 
 **14+ Models · Auto EDA · Optuna · SHAP · CLI · Python API**
 
 ![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.4+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.7+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
 ![Optuna](https://img.shields.io/badge/Optuna-4.0+-7B68EE?style=for-the-badge)
 ![SHAP](https://img.shields.io/badge/SHAP-Explainability-FF6B35?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)
@@ -25,19 +25,19 @@ A production-grade **Python AutoML library** for tabular datasets that automatic
 Install MLPilot:
 
 ```bash
-pip install mlpilot
+pip install mlpilotx
 ```
 
 Run your first ML pipeline:
 
 ```bash
-mlpilot run --data dataset.csv
+mlpilot run --data examples/USA_Housing.csv
 ```
 
 Specify the target column manually:
 
 ```bash
-mlpilot run --data dataset.csv --target price --task regression
+mlpilot run --data examples/USA_Housing.csv --target price
 ```
 
 ---
@@ -48,16 +48,16 @@ Instead of writing hundreds of lines of boilerplate code, MLPilot automatically 
 
 | Stage | Description |
 |--------|-------------|
-| 📂 Load | CSV & Parquet loading |
+| 📂 Load | CSV loading & validation |
 | 📊 EDA | Statistics, missing values & correlations |
-| 🧹 Clean | Duplicates, sparse columns & outliers |
+| 🧹 Clean | Duplicates, sparse columns & outlier handling |
 | ⚙️ Feature Engineering | Encoding, scaling & transformations |
 | ✂️ Split | Train / Test split |
-| 🔧 Preprocess | ColumnTransformer pipeline |
-| 🏆 Compare | 14+ machine learning models |
+| 🔧 Preprocess | Scikit-learn preprocessing pipeline |
+| 🏆 Compare | 14+ Machine Learning models |
 | 🎯 Tune | Bayesian optimization with Optuna |
-| 🔍 Explain | SHAP feature importance & plots |
-| 📦 Export | Complete `.joblib` inference pipeline |
+| 🔍 Explain | SHAP feature importance & visualizations |
+| 📦 Export | Deployment-ready `.joblib` pipeline |
 
 ---
 
@@ -104,8 +104,8 @@ Instead of writing hundreds of lines of boilerplate code, MLPilot automatically 
 
 # ✨ Features
 
-- 📂 Automatic CSV & Parquet support
-- 🤖 Regression & Classification detection
+- 📂 Automatic CSV support
+- 🤖 Automatic Regression & Classification detection
 - 📊 Smart Exploratory Data Analysis
 - 🧹 Missing value & outlier handling
 - ⚙️ Feature engineering pipeline
@@ -113,31 +113,31 @@ Instead of writing hundreds of lines of boilerplate code, MLPilot automatically 
 - 🎯 Bayesian hyperparameter optimization
 - 🔍 SHAP explainability visualizations
 - 📦 Export complete inference pipeline
-- 💻 CLI & Python API support
+- 💻 Rich CLI & Python API support
 
 ---
 
 # 💻 CLI Usage
 
-### Train automatically
+### Automatic Training
 
 ```bash
-mlpilot run --data housing.csv
+mlpilot run --data examples/heart.csv
 ```
 
 ### Regression
 
 ```bash
-mlpilot run --data housing.csv --target price --task regression
+mlpilot run --data examples/USA_Housing.csv --target price
 ```
 
 ### Classification
 
 ```bash
-mlpilot run --data churn.csv --target exited --task classification
+mlpilot run --data examples/patient_adherence_dataset.csv --target adherence
 ```
 
-### Custom output folder
+### Custom Output Folder
 
 ```bash
 mlpilot run --data data.csv --output outputs/
@@ -156,7 +156,7 @@ config = load_config()
 runner = PipelineRunner(config)
 
 context = runner.run(
-    data_path="housing.csv",
+    data_path="examples/USA_Housing.csv",
     target="price"
 )
 
@@ -166,23 +166,49 @@ print(context.metrics)
 
 ---
 
-# 📁 Generated Artifacts
+# 📁 Example Datasets
+
+MLPilot includes ready-to-use datasets inside the `examples/` folder.
+
+| Dataset | Task |
+|----------|------|
+| `USA_Housing.csv` | Regression |
+| `insurance.csv` | Regression |
+| `heart.csv` | Classification |
+| `patient_adherence_dataset.csv` | Classification |
+| `Student_performance_data.csv` | Classification |
+| `Food_Delivery_Times.csv` | Regression |
+| `Exam_Score_Prediction.csv` | Regression |
+| `taxi_trip_pricing.csv` | Regression |
+| `personality_synthetic_dataset.csv` | Classification |
+
+Example:
+
+```bash
+mlpilot run --data examples/insurance.csv --target charges
+```
+
+---
+
+# 📦 Generated Artifacts
 
 Every successful run generates:
 
 ```text
-outputs/
+mlpilot_artifacts/
 ├── mlpilot_pipeline.joblib
 ├── leaderboard.csv
 ├── metrics.json
 ├── model_comparison.json
 ├── feature_importances.json
+├── eda_report.json
 ├── run_metadata.json
 ├── serving_schema.json
 ├── predict_snippet.py
+├── DEPLOY.md
 └── shap/
     ├── shap_summary.png
-    ├── shap_dependence.png
+    ├── shap_dependence_*.png
     └── shap_waterfall.png
 ```
 
@@ -192,18 +218,50 @@ outputs/
 
 | Category | Models |
 |----------|--------|
-| **Linear** | Ridge, Lasso, ElasticNet, Linear Regression |
+| **Linear** | Linear Regression, Ridge, Lasso, ElasticNet |
 | **Tree** | Decision Tree, Random Forest, Extra Trees |
 | **Boosting** | Gradient Boosting, HistGradientBoosting |
 | **Instance** | KNN, SVR |
-| **Neural** | MLP Regressor / Classifier |
+| **Neural** | MLP |
+| **Classification** | Logistic Regression, SGD, Linear SVC, Passive Aggressive |
+
+---
+
+# 🧪 Edge Case Testing
+
+MLPilot includes dedicated validation datasets.
+
+```text
+tests/
+└── edge_cases/
+    ├── empty.csv
+    ├── one_row.csv
+    ├── all_null.csv
+    ├── duplicate_col.csv
+    ├── target_missing.csv
+    ├── only_numeric.csv
+    └── only_categorical.csv
+```
+
+Run an edge-case test:
+
+```bash
+mlpilot run --data tests/edge_cases/empty.csv
+```
 
 ---
 
 # 📂 Project Structure
 
 ```text
-mlpilot/
+MLPilot/
+├── configs/
+│   └── default.yaml
+├── examples/
+│   ├── USA_Housing.csv
+│   ├── insurance.csv
+│   ├── heart.csv
+│   └── ...
 ├── src/
 │   └── ml_pilot/
 │       ├── cli.py
@@ -212,9 +270,12 @@ mlpilot/
 │       ├── stages/
 │       └── utils/
 ├── tests/
-├── examples/
-├── README.md
+│   ├── edge_cases/
+│   ├── test_load.py
+│   ├── test_pipeline_smoke.py
+│   └── ...
 ├── LICENSE
+├── README.md
 └── pyproject.toml
 ```
 
