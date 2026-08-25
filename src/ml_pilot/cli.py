@@ -24,7 +24,7 @@ from ml_pilot.core.pipeline import PipelineRunner
 
 app = typer.Typer(
     name="mlpilot",
-    help="MLPilot - Data In -> Insights Out. Production AutoML for tabular data.",
+    help="MLPilot - Data In -> Insights Out. Production Machine Learning for tabular data.",
     add_completion=False,
     no_args_is_help=True,
 )
@@ -95,7 +95,7 @@ def run(
         help="Override Optuna trial count.",
     ),
 ) -> None:
-    """Run the full MLPilot AutoML pipeline on a tabular dataset."""
+    """Run the full MLPilot Machine Learning pipeline on a tabular dataset."""
     overrides: dict = {
         "data": {"path": str(data)},
         "runtime": {

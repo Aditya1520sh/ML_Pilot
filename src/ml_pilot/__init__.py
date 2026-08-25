@@ -1,6 +1,6 @@
 """MLPilot — Data In, Insights Out.
 
-End-to-end AutoML for tabular datasets: load, explore, clean, engineer features,
+End-to-end Machine Learning for tabular datasets: load, explore, clean, engineer features,
 compare models, tune, select, evaluate, explain, and export.
 """
 

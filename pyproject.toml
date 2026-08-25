@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mlpilotx"
-version = "0.1.2"
-description = "MLPilot — Data In, Insights Out. Production-grade Machine Learning library for tabular datasets."
+version = "0.1.1"
+description = "MLPilot — Data In, Insights Out. Production-grade AutoML for tabular data."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }

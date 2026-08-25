@@ -1,4 +1,4 @@
-"""Pipeline stage implementations for the MLPilot AutoML workflow."""
+"""Pipeline stage implementations for the MLPilot Machine Learning workflow."""
 
 from ml_pilot.stages.clean import CleanStage
 from ml_pilot.stages.compare import CompareStage
